@@ -18,14 +18,14 @@ pipeline {
         
         stage('Run Tests') {
             steps {
-                withEnv([
-                    'URL=https://app.espresa.com/', 
-                    'EMAIL=aliaksandr.tsimoshyn@leverx.com', 
-                    'PASSWORD=123456789_leverx'
-                ]) {
-                    sh 'npx playwright test'
-                }
-            }
+    withCredentials([
+        string(credentialsId: 'url', variable: 'URL'),
+        string(credentialsId: 'email', variable: 'EMAIL'),
+        string(credentialsId: 'password', variable: 'PASSWORD')
+    ]) {
+        sh 'npx playwright test'
+    }
+}
             post {
         always {
             publishHTML(target: [
