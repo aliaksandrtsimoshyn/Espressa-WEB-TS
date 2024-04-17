@@ -18,27 +18,27 @@ pipeline {
         
         stage('Run Tests') {
             steps {
-    withCredentials([
-        string(credentialsId: 'url', variable: 'URL'),
-        string(credentialsId: 'email', variable: 'EMAIL'),
-        string(credentialsId: 'password', variable: 'PASSWORD')
-    ]) {
-        sh 'npx playwright test'
-    }
-}
+                withCredentials([
+                    string(credentialsId: 'url', variable: 'URL'),
+                    string(credentialsId: 'email', variable: 'EMAIL'),
+                    string(credentialsId: 'password', variable: 'PASSWORD')
+                ]) {
+                    sh 'npx playwright test'
+                }
+            }
+            
             post {
-        always {
-            publishHTML(target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: false,
-                keepAll: true,
-                reportDir: 'playwright-report',
-                reportFiles: 'index.html',
-                reportName: 'HTML Report'
-            ])
-        }
-    }
+                always {
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'HTML Report'
+                    ])
+                }
+            }
         }
     }
 }
-
